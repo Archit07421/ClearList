@@ -3,9 +3,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import TodoInput from './components/TodoInput';
 import TodoItems from './components/TodoItems';
 import WelcomeMessage from './components/WelcomeMessage';
-import { useState } from 'react';
+import {  useReducer} from 'react';
+import { TodoItemsContext } from './store/todo-items-store';
+
+const todoContentReducer = (currValue , action) =>{
+  let newTodoItems = currValue;
+  if(action.type === "NEW_ITEM"){
+    
+    newTodoItems= [...currValue , {text:action.payload.itemName , date:action.payload.itemDate},];
+    
+  
+  }
+
+  if(action.type === "DELETE_ITEM"){
+    newTodoItems= currValue.filter((item)=> item.text !== action.payload.itemName );
+    
+  }
+  return newTodoItems;
+}
+
 
 function App() {
+
+  const [todoContent , dispatchTodoContent]= useReducer(todoContentReducer ,[] )
 
   // const initialtodoContent = [
   //   {
@@ -19,27 +39,54 @@ function App() {
   // ]
 
   const handleInput = (itemName , itemDate) =>{
-    console.log(`the name is:${itemName} and the date is:${itemDate}`);
-    const newTodoItems = [...todoContent , {text:itemName , date:itemDate}];
-    settodoContent(newTodoItems);
+    const newItemAction = {
+      type:"NEW_ITEM",
+      payload:{
+        itemName,
+        itemDate
+      }
+    };
+
+    dispatchTodoContent(newItemAction);
+
+    
+    
+    // settodoContent((currValue)=>{
+    //   const newTodoItems = [...currValue , {text:itemName , date:itemDate}];
+    //   return newTodoItems;
+    // });
+    
   }
 
   const handleDelete = (deleteItem) =>{
-    const newDelete = todoContent.filter((item)=> item.text !== deleteItem );
-    settodoContent(newDelete);
+     
+    const deleteItemAction = {
+      type:"DELETE_ITEM",
+      payload:{
+        itemName:deleteItem,
+      }
+    };
+
+    dispatchTodoContent(deleteItemAction);
   }
 
- const [todoContent , settodoContent] = useState([]);
+//  const [todoContent , settodoContent] = useState([]);
 
   return (
-    <div className="text-center">
-      <h1>TODO APP</h1>
+    <TodoItemsContext.Provider value={{
+        todoContent,
+        handleInput,
+        handleDelete,
+      }}>
+      <div className="text-center">
+          <h1>TODO APP</h1>
 
-     <TodoInput handleInput={handleInput}></TodoInput>
-     {todoContent.length === 0 && <WelcomeMessage></WelcomeMessage>}
-     <TodoItems todoContent={todoContent} handleDelete={handleDelete}></TodoItems>
-      
-    </div>
+        <TodoInput ></TodoInput>
+        <WelcomeMessage ></WelcomeMessage>
+        <TodoItems ></TodoItems>
+          
+      </div>
+    </TodoItemsContext.Provider>
   );
 }
 

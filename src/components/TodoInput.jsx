@@ -1,8 +1,10 @@
-import { useState, useRef } from "react";
+import {  useRef } from "react";
+import { useContext } from "react";
+import { TodoItemsContext } from "../store/todo-items-store";
 
-const TodoInput = ({ handleInput }) => {
+const TodoInput = () => {
 
-
+  const {handleInput} = useContext(TodoItemsContext);
   const todoNameElement = useRef();
   const todoDueDateElement = useRef();
 

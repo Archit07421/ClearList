@@ -1,4 +1,10 @@
-function TodoItem({ todoName, todoDate , handleDelete }) {
+import { useContext } from "react";
+import { TodoItemsContext } from "../store/todo-items-store";
+
+function TodoItem({todoName , todoDate}) {
+
+    const {handleDelete} = useContext(TodoItemsContext);
+    const {todoContent} =useContext(TodoItemsContext)
   return (
     <div className="container-fluid">
       <div className="row kg-row">
