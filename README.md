@@ -1,18 +1,18 @@
-# 📝 Todo App (React + Tailwind CSS)
+#  ClearList 
 
 A simple and efficient Todo application built using **React** and **Tailwind CSS**.  
 This project demonstrates modern React concepts like **useReducer**, **useRef**, **Context API**, and **useState** for state management and component communication.
 
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **React**
 - **Tailwind CSS**
-- **JavaScript (ES6+)**
+- **JavaScript **
 
 ---
 
-## 🧩 React Concepts Used
+##  React Concepts Used
 
 - `useState` – for managing local component state  
 - `useReducer` – for handling complex state logic  
